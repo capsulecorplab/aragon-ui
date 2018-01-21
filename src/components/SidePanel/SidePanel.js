@@ -9,9 +9,10 @@ import getPublicUrl, { prefixUrl } from '../../public-url'
 
 import close from './assets/close.svg'
 
-const PANEL_WIDTH = 400
-const PANEL_OVERFLOW = PANEL_WIDTH * 0.2
-const PANEL_HIDE_RIGHT = -PANEL_WIDTH * 1.6
+export const PANEL_WIDTH = 450
+export const PANEL_OVERFLOW = PANEL_WIDTH * 0.2
+export const PANEL_HIDE_RIGHT = -PANEL_WIDTH * 1.6
+export const HORIZONTAL_PADDING = 30
 
 const StyledSidePanel = styled.div`
   position: fixed;
@@ -37,8 +38,8 @@ const StyledPanel = styled.aside`
   display: flex;
   flex-direction: column;
   width: ${PANEL_WIDTH + PANEL_OVERFLOW}px;
-  padding-right: ${30 + PANEL_OVERFLOW}px;
-  padding-left: 30px;
+  padding-right: ${HORIZONTAL_PADDING + PANEL_OVERFLOW}px;
+  padding-left: ${HORIZONTAL_PADDING}px;
   height: 100%;
   background: white;
   position: absolute;
@@ -60,7 +61,7 @@ const StyledPanelCloseButton = styled.button`
     position: absolute;
     padding: 20px;
     top: 0;
-    right: -30px;
+    right: -${HORIZONTAL_PADDING}px;
     cursor: pointer;
     background: none;
     border: 0;
