@@ -13,6 +13,7 @@ export const PANEL_WIDTH = 450
 export const PANEL_OVERFLOW = PANEL_WIDTH * 0.2
 export const PANEL_HIDE_RIGHT = -PANEL_WIDTH * 1.6
 export const HORIZONTAL_PADDING = 30
+export const PANEL_INNER_WIDTH = PANEL_WIDTH - HORIZONTAL_PADDING * 2
 
 const StyledSidePanel = styled.div`
   position: fixed;
@@ -94,10 +95,16 @@ class SidePanel extends React.Component {
       this.handleClose()
     }
   }
+  handleMotionRest = () => {
+    this.props.onTransitionEnd(this.props.opened)
+  }
   render() {
     const { children, title, opened, blocking, publicUrl } = this.props
     return (
-      <Motion style={{ progress: spring(Number(opened), springConf('slow')) }}>
+      <Motion
+        style={{ progress: spring(Number(opened), springConf('slow')) }}
+        onRest={this.handleMotionRest}
+      >
         {({ progress }) => {
           const styles = motionStyles(progress)
           return (
@@ -138,11 +145,21 @@ SidePanel.propTypes = {
   blocking: PropTypes.bool,
   onClose: PropTypes.func,
   publicUrl: PropTypes.string.isRequired,
+  onTransitionEnd: PropTypes.func,
 }
 
 SidePanel.defaultProps = {
   opened: true,
   blocking: false,
+  onTransitionEnd: () => {},
 }
 
-export default getPublicUrl(SidePanel)
+const WrappedSidePanel = getPublicUrl(SidePanel)
+
+WrappedSidePanel.PANEL_WIDTH = PANEL_WIDTH
+WrappedSidePanel.PANEL_OVERFLOW = PANEL_OVERFLOW
+WrappedSidePanel.PANEL_HIDE_RIGHT = PANEL_HIDE_RIGHT
+WrappedSidePanel.HORIZONTAL_PADDING = HORIZONTAL_PADDING
+WrappedSidePanel.PANEL_INNER_WIDTH = PANEL_INNER_WIDTH
+
+export default WrappedSidePanel
